@@ -24,11 +24,11 @@ var sphere = {
     this.c = this.myCanvas(); // store context
     // console.log(this.c);
 
-    var ring = window.setInterval(function(){
+    /* var ring = window.setInterval(function(){
       sphere.run();
-    }, 2000);
+    }, 2000); */
 
-    // this.run();
+    this.run();
   },
 
   myCanvas: function(){
