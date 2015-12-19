@@ -9,95 +9,89 @@ TODO: Minimum viable product: break problems into smallest solvable chunks
 make a branch and isolate when working on a new feature
 */
 
-var x = window.width;
-var y = window.height;
+function RingCircle(container) {
+  var canvas = document.createElement("canvas");
+  canvas.className = "ring-circle";
+  canvas.width = 50;
+  canvas.height = 50;
+  this.ctx = canvas.getContext("2d"); // store context
+  container.appendChild(canvas);
 
+  this.callInfo = document.createElement("span");
+  container.appendChild(this.callInfo);
 
-var sphere = {
-  init: function(){
-    this.diam = 0; // can change this on the fly.
-    this.colour = "#555";
-    this.speed = 2;
-    this.increment = true;
-    this.interval = 0;
-    this.ringTone = new Audio("telephone_bleep.mp3");
-    this.c = this.myCanvas(); // store context
+  this.diam = 0; // can change this on the fly.
+  this.speed = 2;
+  this.increment = true;
+  this.interval = 0;
+  this.ringTone = new Audio("telephone_bleep.mp3");
+}
 
-    this.run();
-  },
-
-  myCanvas: function(){
-    var c = document.getElementById("sphere");
-    var ctx = c.getContext("2d");
-    return ctx;
-  },
-
-  loop: function(){
-    if(sphere.diam === 0) {
-      sphere.ringTone.play();
+RingCircle.prototype = {
+  loop: function() {
+    if (this.diam === 0) {
+      this.ringTone.play();
       console.log("ring ring");
       // sphere.ringTone.pause();
     }
 
     // parsed argument refer's to myCanvas
-    sphere.wipe(sphere.c);
-    sphere.draw(sphere.c);
+    this.ctx.clearRect(0, 0, 400, 400);
+    this.draw();
 
-    // recurssion
-    sphere.animate = window.requestAnimationFrame(sphere.loop);
+    // recursion
+    this.animate = requestAnimationFrame(this.loop.bind(this));
 
     // every 2 intervals clear animation but ignore first 0(that's divisible by 2)
-    if(sphere.diam === 0 && sphere.interval % 2 === 0) {
-      window.cancelAnimationFrame(sphere.animate);
-      console.log(sphere.interval);
+    if (this.diam === 0 && this.interval % 2 === 0) {
+      cancelAnimationFrame(this.animate);
+      console.log(this.interval);
     }
 
     // after 10 rings hang up
-    if(sphere.interval === 20){
-      window.clearInterval(sphere.ring);
-      document.getElementById("call").innerHTML = "you have a missed call at " +
-      new Date().getTime();
-      console.log("you have a missed call at " + new Date());
+    if (this.interval === 20) {
+      clearInterval(this.ring);
+      this.callInfo.innerHTML = "you have a missed call at " + new Date().getTime();
+      console.log("you have a missed call at ", new Date());
     }
-
   },
 
-  draw: function(c){
+  draw: function() {
     // draw a circle
-    c.beginPath();
-    c.arc(25,25,this.diam,0,2*Math.PI);
+    this.ctx.beginPath();
+    this.ctx.arc(25, 25, this.diam, 0, 2 * Math.PI);
 
-    if(this.increment === true){
+    if (this.increment === true) {
       // expand circle
       this.diam += this.speed;
-      if(this.diam === 26) {
+      if (this.diam === 26) {
         this.increment = false;
       }
     }
-    if(this.increment === false){
+    if (this.increment === false) {
       // contract circle
       this.diam -= this.speed;
-      if(this.diam === 0) {
+      if (this.diam === 0) {
         this.increment = true;
         this.interval++;
       }
     }
 
-    c.stroke();
+    this.ctx.stroke();
   },
 
-  wipe: function(c){
-    c.clearRect(0, 0, 400, 400);
-  },
-
-  run: function(){
-    // run loop every few millasecs
-    sphere.ring = window.setInterval(function(){
-      document.getElementById("call").innerHTML = "You have a call..";
-      sphere.loop();
+  ring: function() {
+    // run loop every few millisecs
+    var self = this;
+    this.ring = setInterval(function() {
+      self.callInfo.innerHTML = "You have a call..";
+      self.loop();
     }, 2500);
 
   }
-}
+};
 
-sphere.init();
+var container = document.createElement("div");
+document.body.insertBefore(container, document.getElementsByTagName("button")[0]);
+var ringCircle = new RingCircle(container);
+ringCircle.ring();
