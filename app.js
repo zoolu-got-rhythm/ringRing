@@ -72,7 +72,6 @@ var sphere = {
       this.diam += this.speed;
       if(this.diam === 26) {
         this.increment = false;
-        // this.wipe(c);
       }
     }
     if(this.increment === false){
@@ -81,8 +80,6 @@ var sphere = {
       if(this.diam === 0) {
         this.increment = true;
         this.interval++;
-        // this.interval++;
-        // this.wipe(c);
       }
     }
 
