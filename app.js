@@ -22,7 +22,6 @@ var sphere = {
     this.interval = 0;
     this.ringTone = new Audio("telephone_bleep.mp3");
     this.c = this.myCanvas(); // store context
-    // console.log(this.c);
 
     this.run();
   },
@@ -50,7 +49,6 @@ var sphere = {
     // every 2 intervals clear animation but ignore first 0(that's divisible by 2)
     if(sphere.diam === 0 && sphere.interval % 2 === 0) {
       window.cancelAnimationFrame(sphere.animate);
-
       console.log(sphere.interval);
     }
 
@@ -66,11 +64,8 @@ var sphere = {
 
   draw: function(c){
     // draw a circle
-
-    // console.log(c);
     c.beginPath();
     c.arc(25,25,this.diam,0,2*Math.PI);
-
 
     if(this.increment === true){
       // expand circle
