@@ -9,16 +9,23 @@ A client-side prototype for call effects and ring tones
 
 ## features
 choose an animation and sound effect for messages, notifications and calls.
-### current methods:
-* `.ring()`
 
-## api
-1. Create a new instance of ringRing
-2. Call method on that instance for desired effects
+## current api
+1. Create a new instance of RingCircle
+2. insert the container you'd like to append too inside the`RingCircle()` parameter
+3. Call method on that instance for desired effects
+
 ```
-var instance = new ringRing(divContainer);
+var instance = new RingCircle(divContainer);
 instance.ring();
 ```
+
+## future api
+```
+var instance = new RingRing(container);
+instance.ring("effectName").sound("soundName").duration(2);
+```
+
 
 ### Contributors
 * Christopher P.K Morris
