@@ -93,5 +93,7 @@ RingCircle.prototype = {
 
 var container = document.createElement("div");
 document.body.insertBefore(container, document.getElementsByTagName("button")[0]);
-var ringCircle = new RingCircle(container);
-ringCircle.ring();
+
+
+  var ringCircle = new RingCircle(container);
+  ringCircle.ring();
